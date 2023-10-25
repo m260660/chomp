@@ -1,8 +1,7 @@
 import pygame
-import sys
 import random
 
-from fish import Fish, fishes
+from game4.fish import Fish, fishes
 #importing a class and a sprite group
 
 #Initialize Pygame

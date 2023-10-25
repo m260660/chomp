@@ -20,13 +20,13 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Beech")
 
 #load game font
-custom_font = pygame.font.Font("assets/fonts/Brainfish_Rush.ttf", size=128)
+custom_font = pygame.font.Font("../assets/fonts/Brainfish_Rush.ttf", size=128)
 
 def draw_bg(surf):
     #load our tiles
-    water = pygame.image.load("assets/sprites/water.png").convert()
-    sand = pygame.image.load("assets/sprites/sand.png").convert()
-    seagrass = pygame.image.load("assets/sprites/seagrass.png").convert()
+    water = pygame.image.load("../assets/sprites/water.png").convert() #"../" looks for out of the current directory
+    sand = pygame.image.load("../assets/sprites/sand.png").convert()
+    seagrass = pygame.image.load("../assets/sprites/seagrass.png").convert()
     #png transparency to get rid of unnecessary bg
     sand.set_colorkey((0, 0, 0))
     seagrass.set_colorkey((0, 0, 0))
@@ -79,7 +79,7 @@ while running:
     #update the display
     pygame.display.flip()
 
-    #import time frame
+    #limit time frame
     clock.tick(60)
 
 pygame.quit()
