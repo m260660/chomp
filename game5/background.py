@@ -11,7 +11,7 @@ def draw_bg(surf):
     sand.set_colorkey((0, 0, 0))
     seagrass.set_colorkey((0, 0, 0))
     # load game font
-    custom_font = pygame.font.Font("../assets/fonts/Brainfish_Rush.ttf", size=128)
+    custom_font = pygame.font.Font("../assets/fonts/Brainfish_Rush.ttf", size=80)
 
     #fill screen
     for x in range(0,SCREEN_WIDTH,TILE_SIZE):
@@ -28,4 +28,4 @@ def draw_bg(surf):
 
     #draw text
     text = custom_font.render('chomp', True, (255,0,0))
-    surf.blit(text, (SCREEN_WIDTH/2 - text.get_width()/2,SCREEN_HEIGHT/2 - text.get_height()/2))
+    surf.blit(text, (SCREEN_WIDTH/2 - text.get_width()/2,text.get_height()/4))

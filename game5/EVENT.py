@@ -27,6 +27,10 @@ while running:
                 print("you pressed da down key")
             if event.key == pygame.K_UP:
                 print("you pressed da up key")
+            if event.key == pygame.K_LEFT:
+                print("you pressed da left key")
+            if event.key == pygame.K_RIGHT:
+                print("you pressed da rite key")
 
     # draw bg
     screen.blit(background, (0, 0))

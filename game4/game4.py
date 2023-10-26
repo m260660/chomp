@@ -16,6 +16,7 @@ screen_width = 800
 screen_height = 600
 tile_size = 64
 
+#create screen
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Beech")
 
@@ -52,6 +53,8 @@ def draw_bg(surf):
 running = True
 background = screen.copy()
 draw_bg(background)
+
+#draw fish on screen
 for _ in range(5):
     fishes.add(Fish(random.randint(screen_width, screen_width*1.5), random.randint(tile_size, screen_height - tile_size)))
 
