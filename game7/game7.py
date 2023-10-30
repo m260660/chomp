@@ -4,8 +4,10 @@ import random
 from game_parameters import *
 #from EVENT import *
 from background import draw_bg
-from fish import Fish, fishes
+from fish import Fish, fishes, add_fish
 from player import Player
+from enemy import *
+
 
 #initialize pygame
 pygame.init()
@@ -23,8 +25,10 @@ background = screen.copy()
 draw_bg(background)
 
 #draw fish on screen
-for _ in range(10):
-     fishes.add(Fish(random.randint(SCREEN_WIDTH, SCREEN_WIDTH*1.5), random.randint(TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE)))
+add_fish(5)
+
+#draw da enemies on screen
+add_enemies(6)
 
 #create a player fish
 player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
@@ -65,6 +69,8 @@ while running:
 
     #draw green fish
     fishes.update()
+    #draw enemies
+    enemies.update()
     #draw orange player fish
     player.update()
 
@@ -76,20 +82,38 @@ while running:
         #score = score + 1
         score += len(result)
         # draw more green fish on screen
-        for _ in range(len(result)):
-            fishes.add(Fish(random.randint(SCREEN_WIDTH, (SCREEN_WIDTH + 20)),
-                            random.randint(TILE_SIZE, SCREEN_HEIGHT - 2*TILE_SIZE)))
+        add_fish(len(result))
+
+    # check for player and enemy collisions
+    result = pygame.sprite.spritecollide(player, enemies, True)
+    if result:
+        # play chomp sound
+        pygame.mixer.Sound.play(chomp) #change sound
+        # score = score + 1
+        # score += len(result)
+        # draw more green fish on screen
+        add_enemies(len(result))
 
     # check if any fish off the screen
     for fish in fishes:
         if fish.rect.x < -fish.rect.width:  # use tile_size
             fishes.remove(fish)  # remove fish from sprite group
-            fishes.add(Fish(random.randint(SCREEN_WIDTH, SCREEN_WIDTH + 50),
-                            random.randint(TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE)))
+            add_fish(1)
+            # fishes.add(Fish(random.randint(SCREEN_WIDTH, SCREEN_WIDTH + 50), same as line above
+            #                 random.randint(TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE)))
+
+    # check if any fish off the screen
+    for enemy in enemies:
+        if enemy.rect.x < -enemy.rect.width:  # use tile_size
+            enemies.remove(enemy)  # remove fish from sprite group
+            add_enemies(1)
+            # enemies.add(Enemy(random.randint(SCREEN_WIDTH, SCREEN_WIDTH + 50), same as line above
+            #                 random.randint(TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE)))
 
     #draw game objects
     fishes.draw(screen)
     player.draw(screen)
+    enemies.draw(screen)
 
     #draw the score on the screen
     text = score_font.render(f'{score}', True, (255, 0, 0))
