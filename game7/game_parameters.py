@@ -8,4 +8,6 @@ MIN_SPEED = 0.5 #units in pixels per frame
 MAX_SPEED = 3.0
 PLAYER_SPEED = 3.0
 
+NUM_LIVES = 3
+
 #rotate angle

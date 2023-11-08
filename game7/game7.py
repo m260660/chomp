@@ -40,8 +40,17 @@ score_font = pygame.font.Font("../assets/fonts/Black_Crayon.ttf", size=80)
 
 #chomp sound
 chomp = pygame.mixer.Sound("../assets/sounds/chomp.wav")
+hurt = pygame.mixer.Sound("../assets/sounds/hurt.wav")
+bubbles = pygame.mixer.Sound("../assets/sounds/bubbles.wav")
 
-while running:
+#add alternate fish image
+life_icon = pygame.image.load("../assets/sprites/orange_fish_alt.png").convert()
+life_icon.set_colorkey((0,0,0)) #Anything black in the image is now transparent
+
+#set the number of lives
+lives = NUM_LIVES
+
+while lives > 0 and running: #lets user play until over AND quit if they are done
     for event in pygame.event.get():
         #print(event)
         if event.type == pygame.QUIT:
@@ -66,7 +75,6 @@ while running:
 
     # draw bg
     screen.blit(background, (0, 0))
-
     #draw green fish
     fishes.update()
     #draw enemies
@@ -87,8 +95,10 @@ while running:
     # check for player and enemy collisions
     result = pygame.sprite.spritecollide(player, enemies, True)
     if result:
-        # play chomp sound
-        pygame.mixer.Sound.play(chomp) #change sound
+        # play hurt sound
+        pygame.mixer.Sound.play(hurt)
+        #play hurt sound
+        lives -= 1
         # score = score + 1
         # score += len(result)
         # draw more green fish on screen
@@ -119,11 +129,37 @@ while running:
     text = score_font.render(f'{score}', True, (255, 0, 0))
     screen.blit(text,(SCREEN_WIDTH-TILE_SIZE, 0))
 
+    #draw lives in lower left corner
+    for i in range(lives):
+        screen.blit(life_icon, (i*TILE_SIZE, SCREEN_HEIGHT - TILE_SIZE))
+
     # update the display
     pygame.display.flip()
 
     # limit time frame
     clock.tick(60)
+#once all lives are gone
+#create new bg when game over
+screen.blit(background,(0,0))
+
+#show game over message and show final score
+message = score_font.render("GAME OVER!",True, (255,0,0))
+screen.blit(message, (SCREEN_WIDTH/2 - message.get_width()/2, SCREEN_HEIGHT/2 - message.get_height()/2))
+score_text = score_font.render(f"Score: {score}", True, (0,255,0))
+screen.blit(score_text, (SCREEN_WIDTH/2 -score_text.get_width()/2, SCREEN_HEIGHT/2 - 3*score_text.get_height()/2))
+
+#update display
+pygame.display.flip()
+
+#play game over sound effect
+pygame.mixer.Sound.play(bubbles)
+
+#wait for user to exit game
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
 pygame.quit()
 sys.exit()
